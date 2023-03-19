@@ -1,3 +1,4 @@
-import {lib} from "./lib"
+//@ts-ignore
+import {initMonaco} from "./lib"
 
-lib()
+initMonaco(document.querySelector(".app"))
