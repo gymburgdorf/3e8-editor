@@ -1,6 +1,3 @@
-import * as monaco from 'monaco-editor';
-export type {monaco}
-
 function loadScript(url: string) {
     return new Promise((resolve, reject) => {
         const script = document.createElement('script');
@@ -25,6 +22,7 @@ export async function initMonaco(element: HTMLElement) {
     require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.36.1/min/vs' } });
     return new Promise(resolve=>{
         require(["vs/editor/editor.main"], () => {
+            //@ts-ignore
             const editor = monaco.editor.create(element, {
                 value: `function x() {
                 console.log("Hello world!!!");
@@ -34,6 +32,7 @@ export async function initMonaco(element: HTMLElement) {
                 automaticLayout: true
             });
             // set the editor height based on the number of lines
+            //@ts-ignore
             var lineHeight = editor.getOption(monaco.editor.EditorOption.lineHeight);
             var lineCount = editor.getModel()!.getLineCount();
             var height = lineHeight * lineCount;
