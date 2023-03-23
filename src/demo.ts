@@ -1,5 +1,5 @@
 //@ts-ignore
-import {initMonaco} from "./lib.ts"
+//import {initMonaco} from "./lib.ts"
 //@ts-ignore
 import {Editor} from "./Editor"
 
