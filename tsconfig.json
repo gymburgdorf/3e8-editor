@@ -14,7 +14,8 @@
       "noEmit": true,
       "noUnusedParameters": true,
       "noImplicitReturns": true,
-      "outDir": "build"
+      "outDir": "build",
+      "declaration": true
     },
     "include": [
       "src"
