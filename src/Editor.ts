@@ -1,9 +1,10 @@
 import { loadMonaco } from "./loadMonaco";
 
-const monacoEditor = await loadMonaco()
+let monacoEditorPromise = loadMonaco()
 
 export class Editor {
     static async create(element: HTMLElement) {
+        let monacoEditor = await monacoEditorPromise
         const editor = monacoEditor.create(element, {
             value: `function x() {return 2}`,
             language: 'javascript',
