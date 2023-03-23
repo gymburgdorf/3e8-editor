@@ -1,4 +1,4 @@
 //@ts-ignore
-import {initMonaco} from "./lib"
+import {initMonaco} from "./lib.ts"
 
-initMonaco(document.querySelector(".app"))
+initMonaco(document.querySelector(".app")!)

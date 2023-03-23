@@ -5,7 +5,7 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/lib.js'),
+      entry: resolve(__dirname, 'src/lib.ts'),
       name: 'lib',
       fileName: 'lib',
     },
