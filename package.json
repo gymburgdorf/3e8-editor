@@ -1,5 +1,5 @@
 {
-  "name": "lib",
+  "name": "3e8-editor-test",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -10,12 +10,12 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/lib.umd.cjs",
-  "module": "./dist/lib.js",
+  "main": "./dist/Editor.umd.cjs",
+  "module": "./dist/Editor.js",
   "exports": {
     ".": {
-      "import": "./dist/lib.js",
-      "require": "./dist/lib.umd.cjs"
+      "import": "./dist/Editor.js",
+      "require": "./dist/Editor.umd.cjs"
     }
   },
   "author": "3e8",
