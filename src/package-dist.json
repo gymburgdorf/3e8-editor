@@ -4,7 +4,7 @@
   "type": "module",
   "main": "./Editor.umd.cjs",
   "module": "./Editor.js",
-  "typings": ".Editor.d.ts",
+  "typings": "./Editor.d.ts",
   "exports": {
     ".": {
       "import": "./Editor.js",
