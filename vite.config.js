@@ -6,9 +6,9 @@ import dts from "vite-plugin-dts"
 export default defineConfig({
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/Editor.ts'),
-      name: 'Editor',
-      fileName: 'Editor',
+      entry: resolve(__dirname, 'src/3e8-editor.ts'),
+      name: '3e8-editor',
+      fileName: '3e8-editor',
     },
   },
   plugins: [

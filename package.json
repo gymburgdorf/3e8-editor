@@ -1,5 +1,5 @@
 {
-  "name": "3e8-editor-test",
+  "name": "3e8-editor",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -10,12 +10,12 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/Editor.umd.cjs",
-  "module": "./dist/Editor.js",
+  "main": "./dist/3e8-editor.umd.cjs",
+  "module": "./dist/3e8-editor.js",
   "exports": {
     ".": {
-      "import": "./dist/Editor.js",
-      "require": "./dist/Editor.umd.cjs"
+      "import": "./dist/3e8-editor.js",
+      "require": "./dist/3e8-editor.umd.cjs"
     }
   },
   "author": "3e8",
