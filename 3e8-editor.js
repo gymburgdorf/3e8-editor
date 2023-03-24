@@ -19,11 +19,16 @@ async function s() {
     });
   });
 }
-let m = s();
-class l {
+let l = s();
+const m = `function x() {
+    let a = 1
+    let b = 2
+    return a + b
+}`;
+class u {
   static async create(o) {
-    const e = (await m).create(o, {
-      value: "function x() {return 2}",
+    const e = (await l).create(o, {
+      value: m,
       language: "javascript",
       theme: "vs-dark",
       automaticLayout: !0
@@ -33,5 +38,5 @@ class l {
   }
 }
 export {
-  l as Editor
+  u as Editor
 };

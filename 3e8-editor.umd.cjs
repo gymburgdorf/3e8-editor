@@ -2,4 +2,8 @@
     <link rel="stylesheet"
     data-name="vs/editor/editor.main"
     href="${r}/editor/editor.main.min.css">
-`);async function d(){await o(`${r}/loader.min.js`);const n=window.require;return n.config({paths:{vs:r}}),new Promise(i=>{n(["vs/editor/editor.main"],()=>{i(monaco.editor)})})}let c=d();class s{static async create(i){const e=(await c).create(i,{value:"function x() {return 2}",language:"javascript",theme:"vs-dark",automaticLayout:!0});var u=e.getOption(monaco.editor.EditorOption.lineHeight),l=e.getModel().getLineCount(),m=u*l;return e.getDomNode().style.height=m+10+"px",e}}t.Editor=s,Object.defineProperty(t,Symbol.toStringTag,{value:"Module"})});
+`);async function d(){await o(`${r}/loader.min.js`);const n=window.require;return n.config({paths:{vs:r}}),new Promise(i=>{n(["vs/editor/editor.main"],()=>{i(monaco.editor)})})}let c=d();const s=`function x() {
+    let a = 1
+    let b = 2
+    return a + b
+}`;class l{static async create(i){const e=(await c).create(i,{value:s,language:"javascript",theme:"vs-dark",automaticLayout:!0});var u=e.getOption(monaco.editor.EditorOption.lineHeight),m=e.getModel().getLineCount(),f=u*m;return e.getDomNode().style.height=f+10+"px",e}}t.Editor=l,Object.defineProperty(t,Symbol.toStringTag,{value:"Module"})});
