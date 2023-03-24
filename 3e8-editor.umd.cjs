@@ -1,4 +1,4 @@
-(function(t,o){typeof exports=="object"&&typeof module<"u"?o(exports):typeof define=="function"&&define.amd?define(["exports"],o):(t=typeof globalThis<"u"?globalThis:t||self,o(t.Editor={}))})(this,function(t){"use strict";function o(n){return new Promise((i,a)=>{const e=document.createElement("script");e.src=n,e.onload=i,e.onerror=a,document.head.appendChild(e)})}const r="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.36.1/min/vs";document.head.insertAdjacentHTML("beforeend",`
+(function(t,o){typeof exports=="object"&&typeof module<"u"?o(exports):typeof define=="function"&&define.amd?define(["exports"],o):(t=typeof globalThis<"u"?globalThis:t||self,o(t["3e8-editor"]={}))})(this,function(t){"use strict";function o(n){return new Promise((i,a)=>{const e=document.createElement("script");e.src=n,e.onload=i,e.onerror=a,document.head.appendChild(e)})}const r="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.36.1/min/vs";document.head.insertAdjacentHTML("beforeend",`
     <link rel="stylesheet"
     data-name="vs/editor/editor.main"
     href="${r}/editor/editor.main.min.css">

@@ -1,14 +1,14 @@
 {
-  "name": "3e8-editor-test",
+  "name": "3e8-editor",
   "version": "1.0.0",
   "type": "module",
-  "main": "./Editor.umd.cjs",
-  "module": "./Editor.js",
-  "typings": "./Editor.d.ts",
+  "main": "./3e8-editor.umd.cjs",
+  "module": "./3e8-editor.js",
+  "typings": "./3e8-editor.d.ts",
   "exports": {
     ".": {
-      "import": "./Editor.js",
-      "require": "./Editor.umd.cjs"
+      "import": "./3e8-editor.js",
+      "require": "./3e8-editor.umd.cjs"
     }
   },
   "author": "3e8",
