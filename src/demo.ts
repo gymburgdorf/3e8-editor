@@ -5,6 +5,9 @@ import {Editor} from "./3e8-editor"
 
 //initMonaco(document.querySelector(".app")!)
 
-const eddy = await Editor.create(document.querySelector(".app")!)
+const eddy = await Editor.create({
+    element: document.querySelector(".app") as HTMLElement,
+    showGutter: false
+})
 
 console.log(eddy);
