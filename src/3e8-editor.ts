@@ -177,28 +177,29 @@ export class Editor implements IEditor {
   }
 
   resize() {
-    return this.aceEditor.resize();
+    return this.updateHeight()
   }
 
   setValue(code: string) {
-    return this.aceEditor.getSession().setValue(code);
+    return this.monacoEditor.getModel()?.setValue(code);
   }
 
   getValue() {
-    return this.aceEditor.getSession().getValue();
+    return this.monacoEditor.getModel()?.getValue();
   }
 
   undo() {
-    return this.aceEditor.undo();
+    return this.monacoEditor.trigger("myedits", "redo", "myedits");
   }
 
   redo() {
-    return this.aceEditor.redo();
+    // disable redo: https://xy2401.com/local-web-util/lib/monaco-editor-samples/browser-undo-redo-controls/
+    return this.monacoEditor.trigger("myedits", "undo", "myedits");
   }
 
-  getAnnotations() {
-    return this.aceEditor.getSession().getAnnotations();
-  }
+  // getAnnotations() {
+  //   return this.aceEditor.getSession().getAnnotations();
+  // }
 
   sizeup() {
     this.setFontSize(this.editorState.fontSize + 1);
@@ -210,7 +211,7 @@ export class Editor implements IEditor {
 
   setFontSize(val: number) {
     this.editorState.fontSize = val;
-    return this.aceEditor.setFontSize(val + "px");
+    return this.monacoEditor.updateOptions({fontSize: val});
   }
 }
 
@@ -366,12 +367,12 @@ this._beautify =  ace.require("ace/ext/beautify");
 
 
 beautify() {
-	this._beautify.beautify(this.editor.session);
+  this._beautify.beautify(this.editor.session);
 }
 
  const langTools = ace.require("ace/ext/language_tools");
 console.log(langTools);
-		 enableBasicAutocompletion: true,
-		enableLiveAutocompletion: true,
-		enableSnippets: false
+     enableBasicAutocompletion: true,
+    enableLiveAutocompletion: true,
+    enableSnippets: false
 **/
