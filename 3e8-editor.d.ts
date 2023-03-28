@@ -24,6 +24,15 @@ export declare class Editor implements IEditor {
     monacoEditor: monaco.editor.IStandaloneCodeEditor;
     constructor(config: Partial<IEditorState>, monacoBinding: typeof monaco.editor);
     static create(config: Partial<IEditorState>): Promise<Editor>;
+    updateHeight(): void;
+    resize(): void;
+    setValue(code: string): void | undefined;
+    getValue(): string | undefined;
+    undo(): void;
+    redo(): void;
+    sizeup(): void;
+    sizedown(): void;
+    setFontSize(val: number): void;
 }
 /***
 this._beautify =  ace.require("ace/ext/beautify");
@@ -36,7 +45,7 @@ beautify() {
 
  const langTools = ace.require("ace/ext/language_tools");
 console.log(langTools);
-       enableBasicAutocompletion: true,
-      enableLiveAutocompletion: true,
-      enableSnippets: false
-**/ 
+     enableBasicAutocompletion: true,
+    enableLiveAutocompletion: true,
+    enableSnippets: false
+**/
