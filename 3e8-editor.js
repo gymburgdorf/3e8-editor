@@ -1,10 +1,10 @@
-var u = Object.defineProperty;
-var g = (o, e, t) => e in o ? u(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t;
-var n = (o, e, t) => (g(o, typeof e != "symbol" ? e + "" : e, t), t);
-function S(o) {
+var S = Object.defineProperty;
+var p = (i, e, t) => e in i ? S(i, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : i[e] = t;
+var n = (i, e, t) => (p(i, typeof e != "symbol" ? e + "" : e, t), t);
+function w(i) {
   return new Promise((e, t) => {
-    const i = document.createElement("script");
-    i.src = o, i.onload = e, i.onerror = t, document.head.appendChild(i);
+    const o = document.createElement("script");
+    o.src = i, o.onload = e, o.onerror = t, document.head.appendChild(o);
   });
 }
 const r = "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.36.1/min/vs";
@@ -13,37 +13,35 @@ document.head.insertAdjacentHTML("beforeend", `
     data-name="vs/editor/editor.main"
     href="${r}/editor/editor.main.min.css">
 `);
-async function p() {
-  await S(`${r}/loader.min.js`);
-  const o = window.require;
-  return o.config({ paths: { vs: r } }), new Promise((e) => {
-    o(["vs/editor/editor.main"], () => {
+async function f() {
+  await w(`${r}/loader.min.js`);
+  const i = window.require;
+  return i.config({ paths: { vs: r } }), new Promise((e) => {
+    i(["vs/editor/editor.main"], () => {
       e(monaco.editor);
     });
   });
 }
-let w = p();
-class s {
+let v = f();
+class a {
   constructor(e, t) {
     n(this, "editorState");
-    // private readonly mode: "python" | "javascript" | undefined;
     // private _maxLines: number | undefined;
-    // private readonly editor: AceAjax.Editor;
-    // private _beautify: any;
-    n(this, "pythonCodeCheckWorker");
-    n(this, "pythonCodeCheckWorkerBusy");
-    n(this, "parserTimeout");
+    // private pythonCodeCheckWorker?: Worker;
+    // private pythonCodeCheckWorkerBusy?: boolean;
+    // private parserTimeout?: number;
     n(this, "monacoEditor");
+    var s;
     this.editorState = Object.assign(
       {
         element: null,
-        mode: "python",
+        mode: "javascript",
         theme: "dark",
         fontSize: 24,
-        code: "",
+        code: ((s = e.element) == null ? void 0 : s.textContent) || "",
         readOnly: !1,
         disableSelect: !1,
-        showLineNumbers: !["html", "css", "svg"].includes(e.mode || ""),
+        showLineNumbers: !["css", "svg"].includes(e.mode || ""),
         minLines: 4,
         showInvisibles: e.mode === "python",
         maxLines: 20,
@@ -52,27 +50,30 @@ class s {
       e
     );
     const {
-      code: i,
-      element: a = document.documentElement.appendChild(
+      element: o = document.documentElement.appendChild(
         document.createElement("div")
       ),
-      minLines: y,
-      maxLines: f,
-      theme: v,
-      mode: d,
-      showGutter: l,
+      code: d,
+      minLines: z,
+      maxLines: y,
+      theme: b,
+      mode: l,
+      showGutter: c,
       showLineNumbers: h,
-      readOnly: c,
-      fontSize: m,
-      showInvisibles: z
+      readOnly: m,
+      fontSize: u,
+      showInvisibles: g
     } = this.editorState;
-    this.monacoEditor = t.create(a, {
-      value: i || "//missing code :-)",
-      language: d,
+    this.editorState.element.innerHTML = "", this.monacoEditor = t.create(o, {
+      value: d || "//missing code :-)",
+      language: l,
       theme: "vs-dark",
-      readOnly: c,
-      fontSize: m,
-      ...(!l || !h) && {
+      readOnly: m,
+      fontSize: u,
+      tabSize: 2,
+      insertSpaces: !1,
+      renderWhitespace: g ? "boundary" : "none",
+      ...(!c || !h) && {
         lineNumbers: "off",
         glyphMargin: !1,
         folding: !1,
@@ -89,7 +90,6 @@ class s {
       },
       renderLineHighlight: "none",
       scrollBeyondLastLine: !1,
-      //wordWrap: 'on',
       wrappingStrategy: "advanced",
       minimap: {
         enabled: !1
@@ -98,13 +98,14 @@ class s {
       hideCursorInOverviewRuler: !0,
       overviewRulerBorder: !1,
       lineNumbersMinChars: 3
-    }), this.monacoEditor.onDidContentSizeChange(() => this.updateHeight), this.updateHeight();
+    }), this.monacoEditor.onDidContentSizeChange(() => this.updateHeight()), this.updateHeight();
   }
   static async create(e) {
-    let t = await w;
-    return new s(e, t);
+    let t = await v;
+    return new a(e, t);
   }
   updateHeight() {
+    console.log({ h: this.monacoEditor.getContentHeight() });
     const e = Math.min(500, this.monacoEditor.getContentHeight());
     this.editorState.element.style.height = `${e}px`, this.monacoEditor.layout({
       width: this.editorState.element.getBoundingClientRect().width,
@@ -112,7 +113,7 @@ class s {
     });
   }
   resize() {
-    return this.updateHeight();
+    return console.log(123), this.updateHeight();
   }
   setValue(e) {
     var t;
@@ -142,5 +143,5 @@ class s {
   }
 }
 export {
-  s as Editor
+  a as Editor
 };
