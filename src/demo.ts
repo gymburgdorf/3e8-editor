@@ -11,13 +11,13 @@ const eddy = await Editor.create({
 	let a = 1
 	let b = 2
 	return a + b
-	}`
+}`
 })
 
 const eddypy = await Editor.create({
 	element: document.querySelector(".py") as HTMLElement,
 	mode: "python",
-	code: "" && `def x():
+	code: `def x():
 	🚑 = 1
 	b = 2
 	return a + b`
@@ -45,6 +45,21 @@ const eddyhtml = await Editor.create({
 const contenteddy = await Editor.create({
 	element: document.querySelector(".codefromcontent") as HTMLElement
 })
+
+const collabeddy = await Editor.create({
+	element: document.querySelector(".collabeddy") as HTMLElement,
+	code: `function x() {
+	let a = 1
+	let b = 2
+	return a + b
+}`
+})
+
+let i = 0
+setInterval(()=>{
+	collabeddy.addRemoteCursor("adi", 2,i)
+	i = ++i % 8
+}, 100)
 
 
 console.log(eddy);

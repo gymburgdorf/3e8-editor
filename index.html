@@ -15,6 +15,29 @@
       }
 
       .edi {margin-bottom: 1em;}
+
+      .myContentClass {background-color: #aaccee66;}
+
+/* Bubble decoration */
+.cursorDecoration {
+position: relative;
+box-shadow: -2px 0px 0px 0px white, -2px 0px 0px 0px white;
+
+}
+.cursorDecoration::before {
+position: absolute;
+top: -0.5em;
+left: -0.75em;
+font-size: 0.5em;
+width: 1.5em;
+height: 1em;
+line-height: 1;
+background-color: #000;
+
+border: 1px solid orange;
+content: 'A'
+}
+
     </style>
   </head>
   <body>
@@ -24,6 +47,7 @@
     <div class="edi nogutter"></div>
     <div class="edi html"></div>
     <div class="edi codefromcontent">123</div>
+    <div class="edi collabeddy"></div>
     <script type="module" src="/src/demo.ts"></script>
   </body>
 </html>

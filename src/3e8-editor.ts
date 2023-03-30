@@ -29,7 +29,8 @@ export class Editor implements IEditor {
 	// private pythonCodeCheckWorker?: Worker;
 	// private pythonCodeCheckWorkerBusy?: boolean;
 	// private parserTimeout?: number;
-	monacoEditor: monaco.editor.IStandaloneCodeEditor;
+	private monacoEditor: monaco.editor.IStandaloneCodeEditor;
+	private decorations: string[]
 
 	constructor(
 		config: Partial<IEditorState>,
@@ -104,46 +105,19 @@ export class Editor implements IEditor {
 			overviewRulerBorder: false,
 			lineNumbersMinChars: 3,
 		});
-
-
-		const todoOptions = {
-			maxLines,
-			minLines,
-			showLineNumbers,
-			showInvisibles,
-			// enableBasicAutocompletion: true,
-			// enableLiveAutocompletion: true,
-			// enableSnippets: false
-		};
-
-		
+		this.decorations = []
+		//const todoOptions = {maxLines,minLines};
 		this.monacoEditor.onDidContentSizeChange(() => this.updateHeight());
 		this.updateHeight();
-		//editor.session.setUseWorker(false); //remove this if you want live error checking. Activated because of await error.
-		// editor.resize();
-		// editor.setFontSize(fontSize + "px");
-		// editor.getSession().setOptions({ tabSize: 4, useSoftTabs: false });
-		// editor.getSession().setValue(code);
 		// this.setRules();
-		// @ts-ignore
-		//editor.$blockScrolling = Infinity;
-
 		// if(mode === "python") {
 		//   this.addPythonCodeCheckWorker()
 		// }
-
-		// set the editor height based on the number of lines
-		// var lineHeight = this.monacoEditor.getOption(monaco.editor.EditorOption.lineHeight);
-		// var lineCount = this.monacoEditor.getModel()!.getLineCount();
-		// var height = lineHeight * lineCount;
-		// this.monacoEditor.getDomNode()!.style.height = height + 10 + 'px';
-
 		// if(this.editorState.disableSelect) {
 		//   editor.getSession().selection.on('changeSelection', function () {
 		//     editor.getSession().selection.clearSelection();
 		//   });
 		// }
-
 		//save
 		// editor.commands.addCommand({
 		//   name: 'save',
@@ -161,26 +135,15 @@ export class Editor implements IEditor {
 	}
 
 	updateHeight() {
-		//let ignoreEvent = false
-		console.log({h: this.monacoEditor.getContentHeight()});
-		
 		const contentHeight = Math.min(500, this.monacoEditor.getContentHeight());
 		this.editorState.element.style.height = `${contentHeight}px`;
 		this.monacoEditor.layout({
 			width: this.editorState.element.getBoundingClientRect().width,
 			height: contentHeight,
 		});
-		// try {
-		// 	ignoreEvent = true;
-		// 	this.monacoEditor.layout({width: this.element.getBoundingClientRect().width, height: contentHeight });
-		// } finally {
-		// 	ignoreEvent = false;
-		// }
 	}
 
 	resize() {
-		console.log(123);
-		
 		return this.updateHeight()
 	}
 
@@ -215,7 +178,26 @@ export class Editor implements IEditor {
 
 	setFontSize(val: number) {
 		this.editorState.fontSize = val;
-		return this.monacoEditor.updateOptions({fontSize: val});
+		return this.monacoEditor.updateOptions({ fontSize: val });
+	}
+
+	//collab functions
+	addRemoteCursor(id: string, l: number, c: number) {
+		this.editorState.element.style.setProperty("--name", id)
+		this.decorations = this.monacoEditor.deltaDecorations(this.decorations, [
+			{
+				range: new monaco.Range(l, c, l, c+1),
+				options: {
+					isWholeLine: false,
+					inlineClassName: 'cursorDecoration',
+					hoverMessage: {
+						value: 'This is the content of the bubble',
+						isTrusted: true
+					},
+					stickiness: monaco.editor.TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges
+				}
+			}
+		]);
 	}
 }
 
@@ -224,79 +206,6 @@ export class Editor implements IEditor {
 //import {tjpWorkerString} from "./inlinedTJP.js"
 
 // export class Editor implements IEditor {
-//   readonly editorState: IEditorState
-//   // private readonly mode: "python" | "javascript" | undefined;
-//   // private _maxLines: number | undefined;
-//   // private readonly editor: AceAjax.Editor;
-//   // private _beautify: any;
-//   private pythonCodeCheckWorker?: Worker;
-//   private pythonCodeCheckWorkerBusy?: boolean;
-//   private parserTimeout?: number;
-//   aceEditor: Ace.Editor;
-
-//   constructor(config: Partial<IEditorState>) {
-//     this.editorState = Object.assign({
-//       element: document.getElementById('editor') || document.createElement("div"),
-//       mode: "python",
-//       theme: "monokai", //"chrome"
-//       fontSize: 18,
-//       code: "",
-//       readOnly: false,
-//       disableSelect: false,
-//       showLineNumbers: !["html", "css", "svg"].includes(config.mode || ""),
-//       minLines: 4,
-//       showInvisibles: config.mode === "python",
-//       maxLines: 20,
-//       showGutter: true
-//     }, config)
-//     const {code, element, minLines, maxLines, theme, mode, showGutter, showLineNumbers, readOnly, fontSize, showInvisibles} = this.editorState
-//     //this.editorState.code = code || (aceElement.querySelector("code") || aceElement).textContent || "";
-//     this.aceEditor = ace(element);
-//     const editor = this.aceEditor;
-//     editor.setTheme("ace/theme/" + theme);
-//     editor.session.setMode("ace/mode/" + mode);
-//     editor.setOptions({
-//       showGutter,
-//       showPrintMargin: false,
-//       maxLines,
-//       minLines,
-//       highlightActiveLine: false,
-//       showLineNumbers,
-//       readOnly,
-//       scrollPastEnd: 0.05,
-//       showInvisibles
-//       // enableBasicAutocompletion: true,
-//       // enableLiveAutocompletion: true,
-//       // enableSnippets: false
-//     });
-//     //editor.session.setUseWorker(false); //remove this if you want live error checking. Activated because of await error.
-//     editor.resize();
-//     editor.setFontSize(fontSize + "px");
-//     editor.getSession().setOptions({ tabSize: 4, useSoftTabs: false });
-//     editor.getSession().setValue(code);
-//     this.setRules();
-//     // @ts-ignore
-//     editor.$blockScrolling = Infinity;
-
-//     if(mode === "python") {
-//       this.addPythonCodeCheckWorker()
-//     }
-
-//     if(this.editorState.disableSelect) {
-//       editor.getSession().selection.on('changeSelection', function () {
-//         editor.getSession().selection.clearSelection();
-//       });
-//     }
-
-//     //save
-//     editor.commands.addCommand({
-//       name: 'save',
-//       bindKey: {win: "Ctrl-S", "mac": "Cmd-S"},
-//       exec: function() {
-//         element.dispatchEvent(new CustomEvent("my-save", { bubbles: true, "detail": ""}));
-//       }
-//     })
-//   }
 
 //   addPythonCodeCheckWorker() {
 //     let lastErrors = ""
