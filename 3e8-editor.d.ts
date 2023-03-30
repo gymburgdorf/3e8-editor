@@ -18,7 +18,8 @@ export interface IEditor {
 }
 export declare class Editor implements IEditor {
     readonly editorState: IEditorState;
-    monacoEditor: monaco.editor.IStandaloneCodeEditor;
+    private monacoEditor;
+    private decorations;
     constructor(config: Partial<IEditorState>, monacoBinding: typeof monaco.editor);
     static create(config: Partial<IEditorState>): Promise<Editor>;
     updateHeight(): void;
@@ -30,6 +31,7 @@ export declare class Editor implements IEditor {
     sizeup(): void;
     sizedown(): void;
     setFontSize(val: number): void;
+    addRemoteCursor(id: string, l: number, c: number): void;
 }
 /***
 this._beautify =  ace.require("ace/ext/beautify");

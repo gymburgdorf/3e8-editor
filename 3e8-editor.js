@@ -31,6 +31,7 @@ class a {
     // private pythonCodeCheckWorkerBusy?: boolean;
     // private parserTimeout?: number;
     n(this, "monacoEditor");
+    n(this, "decorations");
     var s;
     this.editorState = Object.assign(
       {
@@ -54,9 +55,9 @@ class a {
         document.createElement("div")
       ),
       code: d,
-      minLines: z,
-      maxLines: y,
-      theme: b,
+      minLines: y,
+      maxLines: b,
+      theme: z,
       mode: l,
       showGutter: c,
       showLineNumbers: h,
@@ -98,14 +99,13 @@ class a {
       hideCursorInOverviewRuler: !0,
       overviewRulerBorder: !1,
       lineNumbersMinChars: 3
-    }), this.monacoEditor.onDidContentSizeChange(() => this.updateHeight()), this.updateHeight();
+    }), this.decorations = [], this.monacoEditor.onDidContentSizeChange(() => this.updateHeight()), this.updateHeight();
   }
   static async create(e) {
     let t = await v;
     return new a(e, t);
   }
   updateHeight() {
-    console.log({ h: this.monacoEditor.getContentHeight() });
     const e = Math.min(500, this.monacoEditor.getContentHeight());
     this.editorState.element.style.height = `${e}px`, this.monacoEditor.layout({
       width: this.editorState.element.getBoundingClientRect().width,
@@ -113,7 +113,7 @@ class a {
     });
   }
   resize() {
-    return console.log(123), this.updateHeight();
+    return this.updateHeight();
   }
   setValue(e) {
     var t;
@@ -140,6 +140,23 @@ class a {
   }
   setFontSize(e) {
     return this.editorState.fontSize = e, this.monacoEditor.updateOptions({ fontSize: e });
+  }
+  //collab functions
+  addRemoteCursor(e, t, o) {
+    this.editorState.element.style.setProperty("--name", e), this.decorations = this.monacoEditor.deltaDecorations(this.decorations, [
+      {
+        range: new monaco.Range(t, o, t, o + 1),
+        options: {
+          isWholeLine: !1,
+          inlineClassName: "cursorDecoration",
+          hoverMessage: {
+            value: "This is the content of the bubble",
+            isTrusted: !0
+          },
+          stickiness: monaco.editor.TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges
+        }
+      }
+    ]);
   }
 }
 export {
