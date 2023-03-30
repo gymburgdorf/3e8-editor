@@ -143,7 +143,7 @@ class a {
   }
   //collab functions
   addRemoteCursor(e, t, o) {
-    this.editorState.element.style.setProperty("--name", e), this.decorations = this.monacoEditor.deltaDecorations(this.decorations, [
+    this.editorState.element.style.setProperty("--name", `'${e}'`), this.decorations = this.monacoEditor.deltaDecorations(this.decorations, [
       {
         range: new monaco.Range(t, o, t, o + 1),
         options: {
