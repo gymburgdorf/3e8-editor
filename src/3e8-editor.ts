@@ -183,7 +183,7 @@ export class Editor implements IEditor {
 
 	//collab functions
 	addRemoteCursor(id: string, l: number, c: number) {
-		this.editorState.element.style.setProperty("--name", id)
+		this.editorState.element.style.setProperty("--name", `'${id}'` )
 		this.decorations = this.monacoEditor.deltaDecorations(this.decorations, [
 			{
 				range: new monaco.Range(l, c, l, c+1),

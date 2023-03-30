@@ -56,10 +56,10 @@ const collabeddy = await Editor.create({
 })
 
 let i = 0
-setInterval(()=>{
-	collabeddy.addRemoteCursor("adi", 2,i)
-	i = ++i % 8
-}, 100)
-
+// setInterval(()=>{
+// 	collabeddy.addRemoteCursor("adi", 2,i)
+// 	i = ++i % 8
+// }, 100)
+collabeddy.addRemoteCursor("🛰", 2,4)
 
 console.log(eddy);

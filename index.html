@@ -21,7 +21,7 @@
 /* Bubble decoration */
 .cursorDecoration {
 position: relative;
-box-shadow: -2px 0px 0px 0px white, -2px 0px 0px 0px white;
+box-shadow: -2px 0px 0px 0px #aaa, -2px 0px 0px 0px #aaa;
 
 }
 .cursorDecoration::before {
@@ -33,9 +33,10 @@ width: 1.5em;
 height: 1em;
 line-height: 1;
 background-color: #000;
-
-border: 1px solid orange;
-content: 'A'
+outline: 2px solid #aaa;
+text-align: center;
+border-radius: 2px;
+content: var(--name, "?");
 }
 
     </style>
