@@ -23,6 +23,7 @@ async function v() {
   });
 }
 let f = v();
+console.log("3e8-edi github v1.1.0");
 class a {
   constructor(e, t) {
     n(this, "editorState");
@@ -55,9 +56,9 @@ class a {
         document.createElement("div")
       ),
       code: d,
-      minLines: y,
-      maxLines: z,
-      theme: b,
+      minLines: b,
+      maxLines: y,
+      theme: z,
       mode: l,
       showGutter: c,
       showLineNumbers: h,
