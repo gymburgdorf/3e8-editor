@@ -2,6 +2,9 @@ import { loadMonaco } from "./loadMonaco";
 
 let monacoEditorPromise = loadMonaco();
 
+console.log("3e8-edi github v1.1.0");
+
+
 export type TMode = "javascript" | "python" | "html";
 
 export interface IEditorState {
