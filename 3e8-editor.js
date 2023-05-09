@@ -13,7 +13,7 @@ document.head.insertAdjacentHTML("beforeend", `
     data-name="vs/editor/editor.main"
     href="${r}/editor/editor.main.min.css">
 `);
-async function f() {
+async function v() {
   await w(`${r}/loader.min.js`);
   const i = window.require;
   return i.config({ paths: { vs: r } }), new Promise((e) => {
@@ -22,7 +22,7 @@ async function f() {
     });
   });
 }
-let v = f();
+let f = v();
 class a {
   constructor(e, t) {
     n(this, "editorState");
@@ -56,8 +56,8 @@ class a {
       ),
       code: d,
       minLines: y,
-      maxLines: b,
-      theme: z,
+      maxLines: z,
+      theme: b,
       mode: l,
       showGutter: c,
       showLineNumbers: h,
@@ -99,10 +99,10 @@ class a {
       hideCursorInOverviewRuler: !0,
       overviewRulerBorder: !1,
       lineNumbersMinChars: 3
-    }), this.decorations = [], this.monacoEditor.onDidContentSizeChange(() => this.updateHeight()), this.updateHeight();
+    }), this.decorations = [], this.monacoEditor.onDidContentSizeChange(() => this.updateHeight()), this.updateHeight(), window.addEventListener("resize", () => this.resize());
   }
   static async create(e) {
-    let t = await v;
+    let t = await f;
     return new a(e, t);
   }
   updateHeight() {
