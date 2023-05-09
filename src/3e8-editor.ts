@@ -109,6 +109,7 @@ export class Editor implements IEditor {
 		//const todoOptions = {maxLines,minLines};
 		this.monacoEditor.onDidContentSizeChange(() => this.updateHeight());
 		this.updateHeight();
+		window.addEventListener("resize", ()=>this.resize())
 		// this.setRules();
 		// if(mode === "python") {
 		//   this.addPythonCodeCheckWorker()
@@ -150,6 +151,7 @@ export class Editor implements IEditor {
 	setValue(code: string) {
 		return this.monacoEditor.getModel()?.setValue(code);
 	}
+
 
 	getValue() {
 		return this.monacoEditor.getModel()?.getValue();
