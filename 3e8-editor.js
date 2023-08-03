@@ -1,46 +1,47 @@
-var S = Object.defineProperty;
-var p = (i, e, t) => e in i ? S(i, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : i[e] = t;
-var n = (i, e, t) => (p(i, typeof e != "symbol" ? e + "" : e, t), t);
-function w(i) {
+var f = Object.defineProperty;
+var w = (i, e, t) => e in i ? f(i, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : i[e] = t;
+var s = (i, e, t) => (w(i, typeof e != "symbol" ? e + "" : e, t), t);
+function v(i) {
   return new Promise((e, t) => {
     const o = document.createElement("script");
     o.src = i, o.onload = e, o.onerror = t, document.head.appendChild(o);
   });
 }
-const r = "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.36.1/min/vs";
+const n = "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.36.1/min/vs";
 document.head.insertAdjacentHTML("beforeend", `
     <link rel="stylesheet"
     data-name="vs/editor/editor.main"
-    href="${r}/editor/editor.main.min.css">
+    href="${n}/editor/editor.main.min.css">
 `);
-async function v() {
-  await w(`${r}/loader.min.js`);
+async function b() {
+  await v(`${n}/loader.min.js`);
   const i = window.require;
-  return i.config({ paths: { vs: r } }), new Promise((e) => {
+  return i.config({ paths: { vs: n } }), new Promise((e) => {
     i(["vs/editor/editor.main"], () => {
       e(monaco.editor);
     });
   });
 }
-let f = v();
+let y = b();
 console.log("3e8-edi github v1.1.0");
-class a {
+class h {
   constructor(e, t) {
-    n(this, "editorState");
+    s(this, "editorState");
     // private _maxLines: number | undefined;
     // private pythonCodeCheckWorker?: Worker;
     // private pythonCodeCheckWorkerBusy?: boolean;
     // private parserTimeout?: number;
-    n(this, "monacoEditor");
-    n(this, "decorations");
-    var s;
+    s(this, "monacoEditor");
+    s(this, "decorations");
+    s(this, "cursors");
+    var d;
     this.editorState = Object.assign(
       {
         element: null,
         mode: "javascript",
         theme: "dark",
         fontSize: 24,
-        code: ((s = e.element) == null ? void 0 : s.textContent) || "",
+        code: ((d = e.element) == null ? void 0 : d.textContent) || "",
         readOnly: !1,
         disableSelect: !1,
         showLineNumbers: !["css", "svg"].includes(e.mode || ""),
@@ -55,27 +56,27 @@ class a {
       element: o = document.documentElement.appendChild(
         document.createElement("div")
       ),
-      code: d,
-      minLines: b,
-      maxLines: y,
-      theme: z,
+      code: r,
+      minLines: a,
+      maxLines: z,
+      theme: E,
       mode: l,
-      showGutter: c,
-      showLineNumbers: h,
-      readOnly: m,
-      fontSize: u,
-      showInvisibles: g
+      showGutter: u,
+      showLineNumbers: m,
+      readOnly: g,
+      fontSize: p,
+      showInvisibles: S
     } = this.editorState;
     this.editorState.element.innerHTML = "", this.monacoEditor = t.create(o, {
-      value: d || "//missing code :-)",
+      value: r || "//missing code :-)",
       language: l,
       theme: "vs-dark",
-      readOnly: m,
-      fontSize: u,
+      readOnly: g,
+      fontSize: p,
       tabSize: 2,
       insertSpaces: !1,
-      renderWhitespace: g ? "boundary" : "none",
-      ...(!c || !h) && {
+      renderWhitespace: S ? "boundary" : "none",
+      ...(!u || !m) && {
         lineNumbers: "off",
         glyphMargin: !1,
         folding: !1,
@@ -100,11 +101,11 @@ class a {
       hideCursorInOverviewRuler: !0,
       overviewRulerBorder: !1,
       lineNumbersMinChars: 3
-    }), this.decorations = [], this.monacoEditor.onDidContentSizeChange(() => this.updateHeight()), this.updateHeight(), window.addEventListener("resize", () => this.resize());
+    }), this.decorations = [], this.cursors = [], this.monacoEditor.onDidContentSizeChange(() => this.updateHeight()), this.updateHeight(), window.addEventListener("resize", () => this.resize());
   }
   static async create(e) {
-    let t = await f;
-    return new a(e, t);
+    let t = await y;
+    return new h(e, t);
   }
   updateHeight() {
     const e = Math.min(500, this.monacoEditor.getContentHeight());
@@ -142,24 +143,37 @@ class a {
   setFontSize(e) {
     return this.editorState.fontSize = e, this.monacoEditor.updateOptions({ fontSize: e });
   }
+  updateDecorations() {
+    this.decorations = this.monacoEditor.deltaDecorations(this.decorations, this.renderCursors());
+  }
+  renderCursors() {
+    return this.cursors.map((e) => ({
+      range: new monaco.Range(e.l, e.c, e.l, e.c + 1),
+      options: {
+        isWholeLine: !1,
+        inlineClassName: `cursorDecoration cursor-${c(e.id)}`,
+        hoverMessage: {
+          value: "This is the content of the bubble",
+          isTrusted: !0
+        },
+        stickiness: monaco.editor.TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges
+      }
+    }));
+  }
   //collab functions
   addRemoteCursor(e, t, o) {
-    this.editorState.element.style.setProperty("--name", `'${e}'`), this.decorations = this.monacoEditor.deltaDecorations(this.decorations, [
-      {
-        range: new monaco.Range(t, o, t, o + 1),
-        options: {
-          isWholeLine: !1,
-          inlineClassName: "cursorDecoration",
-          hoverMessage: {
-            value: "This is the content of the bubble",
-            isTrusted: !0
-          },
-          stickiness: monaco.editor.TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges
-        }
-      }
-    ]);
+    const r = this.cursors.find((a) => a.id === e);
+    r ? (r.l = t, r.c = o) : (this.cursors.push({ id: e, l: t, c: o }), document.head.insertAdjacentHTML("beforeend", `
+				<style>.cursor-${c(e)}:before {content: "${e}";}</style>
+			`)), this.updateDecorations();
+  }
+  removeRemoteCursor(e) {
+    this.cursors = this.cursors.filter((t) => t.id !== e), this.updateDecorations();
   }
 }
+function c(i) {
+  return [...i].map((e) => e.charCodeAt(0).toString(16).padStart(2, "0")).join("");
+}
 export {
-  a as Editor
+  h as Editor
 };

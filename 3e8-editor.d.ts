@@ -20,6 +20,7 @@ export declare class Editor implements IEditor {
     readonly editorState: IEditorState;
     private monacoEditor;
     private decorations;
+    private cursors;
     constructor(config: Partial<IEditorState>, monacoBinding: typeof monaco.editor);
     static create(config: Partial<IEditorState>): Promise<Editor>;
     updateHeight(): void;
@@ -31,20 +32,19 @@ export declare class Editor implements IEditor {
     sizeup(): void;
     sizedown(): void;
     setFontSize(val: number): void;
+    updateDecorations(): void;
+    renderCursors(): {
+        range: monaco.Range;
+        options: {
+            isWholeLine: boolean;
+            inlineClassName: string;
+            hoverMessage: {
+                value: string;
+                isTrusted: boolean;
+            };
+            stickiness: monaco.editor.TrackedRangeStickiness;
+        };
+    }[];
     addRemoteCursor(id: string, l: number, c: number): void;
+    removeRemoteCursor(id: string): void;
 }
-/***
-this._beautify =  ace.require("ace/ext/beautify");
-// @check: window.beautifyOptions = this._beautify.options;
-
-
-beautify() {
-    this._beautify.beautify(this.editor.session);
-}
-
- const langTools = ace.require("ace/ext/language_tools");
-console.log(langTools);
-         enableBasicAutocompletion: true,
-        enableLiveAutocompletion: true,
-        enableSnippets: false
-**/
