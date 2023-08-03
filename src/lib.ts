@@ -17,7 +17,7 @@ document.head.insertAdjacentHTML("beforeend", `
 export async function initMonaco(element: HTMLElement) {
     await loadScript("https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.36.1/min/vs/loader.min.js")
     //@ts-ignore
-    const require = window.require
+    const require: any = window.require
     // require is provided by loader.min.js.
     require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.36.1/min/vs' } });
     return new Promise(resolve=>{

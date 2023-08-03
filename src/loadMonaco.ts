@@ -19,7 +19,7 @@ document.head.insertAdjacentHTML("beforeend", `
 export async function loadMonaco(): Promise<typeof monaco.editor> {
     await loadScript(`${PATHTOCDNVERSION}/loader.min.js`)
     //@ts-ignore
-    const require = window.require
+    const require: any = window.require
     // require is provided by loader.min.js.
     require.config({ paths: { 'vs': PATHTOCDNVERSION } });
     return new Promise(resolve=>{
