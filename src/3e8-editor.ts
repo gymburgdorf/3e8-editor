@@ -34,6 +34,7 @@ export class Editor implements IEditor {
 	// private parserTimeout?: number;
 	private monacoEditor: monaco.editor.IStandaloneCodeEditor;
 	private decorations: string[]
+	private cursors: {id: string, l: number, c: number}[]
 
 	constructor(
 		config: Partial<IEditorState>,
@@ -109,6 +110,7 @@ export class Editor implements IEditor {
 			lineNumbersMinChars: 3,
 		});
 		this.decorations = []
+		this.cursors = []
 		//const todoOptions = {maxLines,minLines};
 		this.monacoEditor.onDidContentSizeChange(() => this.updateHeight());
 		this.updateHeight();
@@ -186,23 +188,44 @@ export class Editor implements IEditor {
 		return this.monacoEditor.updateOptions({ fontSize: val });
 	}
 
+	updateDecorations() {
+		this.decorations = this.monacoEditor.deltaDecorations(this.decorations, this.renderCursors())
+	}
+
+	renderCursors() {
+		return this.cursors.map(cursor=>({
+			range: new monaco.Range(cursor.l, cursor.c, cursor.l, cursor.c+1),
+			options: {
+				isWholeLine: false,
+				inlineClassName: `cursorDecoration cursor-${toHex(cursor.id)}`,
+				hoverMessage: {
+					value: 'This is the content of the bubble',
+					isTrusted: true
+				},
+				stickiness: monaco.editor.TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges
+			}
+		}))
+	}
+
 	//collab functions
 	addRemoteCursor(id: string, l: number, c: number) {
-		this.editorState.element.style.setProperty("--name", `'${id}'` )
-		this.decorations = this.monacoEditor.deltaDecorations(this.decorations, [
-			{
-				range: new monaco.Range(l, c, l, c+1),
-				options: {
-					isWholeLine: false,
-					inlineClassName: 'cursorDecoration',
-					hoverMessage: {
-						value: 'This is the content of the bubble',
-						isTrusted: true
-					},
-					stickiness: monaco.editor.TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges
-				}
-			}
-		]);
+		const existing = this.cursors.find(c=>c.id===id)
+		if(existing) {
+			existing.l = l
+			existing.c = c
+		}
+		else {
+			this.cursors.push({id, l, c})
+			document.head.insertAdjacentHTML("beforeend", `
+				<style>.cursor-${toHex(id)}:before {content: "${id}";}</style>
+			`)
+		}
+		this.updateDecorations()
+	}
+
+	removeRemoteCursor(id: string) {
+		this.cursors = this.cursors.filter(c=>c.id!==id)
+		this.updateDecorations()
 	}
 }
 
@@ -294,3 +317,7 @@ console.log(langTools);
 		enableLiveAutocompletion: true,
 		enableSnippets: false
 **/
+
+function toHex(str: string) {
+	return [...str].map(c => c.charCodeAt(0).toString(16).padStart(2, '0')).join('');
+}
