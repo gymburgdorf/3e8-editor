@@ -8,7 +8,7 @@ function loadScript(url: string) {
     });
 }
 
-const PATHTOCDNVERSION = "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.36.1/min/vs"
+const PATHTOCDNVERSION = "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.43.0/min/vs"
 
 document.head.insertAdjacentHTML("beforeend", `
     <link rel="stylesheet"

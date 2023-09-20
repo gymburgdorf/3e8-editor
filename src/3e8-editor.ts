@@ -1,5 +1,7 @@
 import { loadMonaco } from "./loadMonaco";
 
+import "./3e8-editor-monaco.css"
+
 let monacoEditorPromise = loadMonaco();
 
 console.log("3e8-edi github v1.1.0");
@@ -33,7 +35,7 @@ export class Editor implements IEditor {
 	// private pythonCodeCheckWorkerBusy?: boolean;
 	// private parserTimeout?: number;
 	private monacoEditor: monaco.editor.IStandaloneCodeEditor;
-	private decorations: string[]
+	private decorations: monaco.editor.IEditorDecorationsCollection
 	private cursors: {id: string, l: number, c: number}[]
 
 	constructor(
@@ -109,7 +111,7 @@ export class Editor implements IEditor {
 			overviewRulerBorder: false,
 			lineNumbersMinChars: 3,
 		});
-		this.decorations = []
+		this.decorations = this.monacoEditor.createDecorationsCollection()
 		this.cursors = []
 		//const todoOptions = {maxLines,minLines};
 		this.monacoEditor.onDidContentSizeChange(() => this.updateHeight());
@@ -189,7 +191,8 @@ export class Editor implements IEditor {
 	}
 
 	updateDecorations() {
-		this.decorations = this.monacoEditor.deltaDecorations(this.decorations, this.renderCursors())
+		this.decorations.clear()
+		this.decorations = this.monacoEditor.createDecorationsCollection(this.renderCursors());
 	}
 
 	renderCursors() {
@@ -227,6 +230,8 @@ export class Editor implements IEditor {
 		this.cursors = this.cursors.filter(c=>c.id!==id)
 		this.updateDecorations()
 	}
+
+	
 }
 
 //// @ ts-ignore

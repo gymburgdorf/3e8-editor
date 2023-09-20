@@ -21,9 +21,9 @@
   "author": "3e8",
   "license": "MIT",
   "devDependencies": {
-    "monaco-editor": "^0.36.1",
-    "typescript": "^4.9.5",
-    "vite": "^4.1.4",
-    "vite-plugin-dts": "^2.1.0"
+    "monaco-editor": "^0.43.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9",
+    "vite-plugin-dts": "^3.5.3"
   }
 }
